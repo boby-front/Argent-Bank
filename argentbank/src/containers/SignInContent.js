@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../store/actions/authActions";
 import { useNavigate } from "react-router-dom";
@@ -11,11 +11,15 @@ const SignInContent = () => {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/User");
+    }
+  }, [isLoggedIn]);
+
   const handleLogin = (e) => {
-    dispatch(userLogin(email, password));
-    navigate("/User");
     e.preventDefault();
-    console.log(isLoggedIn);
+    dispatch(userLogin(email, password));
   };
 
   return (
