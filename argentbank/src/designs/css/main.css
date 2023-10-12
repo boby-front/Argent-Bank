@@ -14,11 +14,12 @@ body {
 }
 
 .main {
-  flex: 1;
+  height: 80vh;
 }
 
 .bg-dark {
   background-color: #12002b;
+  padding-top: 3em;
 }
 
 .sr-only {
@@ -56,8 +57,14 @@ body {
   margin-right: 0.5rem;
 }
 
-.main-nav-item i {
-  margin-right: 5px;
+.profile-container i {
+  font-size: 30px;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+
+.profile-container i:hover {
+  transform: scale(1.2);
 }
 
 .main-nav-item:hover {
@@ -73,6 +80,23 @@ body {
   max-width: 100%;
   width: 200px;
   cursor: pointer;
+}
+
+.profile-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.profile-container p {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.error-message {
+  margin-top: 10px;
+  font-weight: 800;
+  color: red;
 }
 
 .hero {
@@ -168,6 +192,7 @@ body {
   border-color: #00bc77;
   background-color: #00bc77;
   color: #fff;
+  cursor: pointer;
 }
 
 .sign-in-content {
@@ -175,12 +200,12 @@ body {
   background-color: white;
   width: 300px;
   margin: 0 auto;
-  margin-top: 3rem;
+
   padding: 2rem;
 }
 
 .sign-in-icon {
-  font-size: 5rem;
+  font-size: 2rem;
 }
 
 .input-remember {
@@ -262,6 +287,7 @@ body {
   color: #fff;
   font-weight: bold;
   padding: 10px;
+  cursor: pointer;
 }
 
 .header {
@@ -279,6 +305,7 @@ body {
   border-color: #00bc77;
   background-color: #00bc77;
   color: #fff;
+  cursor: pointer;
 }
 
 @media (min-width: 720px) {
