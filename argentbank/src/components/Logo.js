@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../designs/img/argentBankLogo.png";
+import logo from "../designs/img/argentBankLogo_1.webp";
 import { NavLink } from "react-router-dom";
 
 const Logo = () => {

@@ -1,9 +1,9 @@
 import React from "react";
 import TitleBank from "../components/TitleBank";
 import FeatureItem from "../containers/FeatureItem";
-import dialog from "../designs/img/icon-chat.png";
-import money from "../designs/img/icon-money.png";
-import shield from "../designs/img/icon-security.png";
+import dialog from "../designs/img/icon-chat_1.webp";
+import money from "../designs/img/icon-money_1.webp";
+import shield from "../designs/img/icon-security_1.webp";
 
 const Home = () => {
   return (

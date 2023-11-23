@@ -1,9 +1,9 @@
-swagger: '2.0'
+swagger: "2.0"
 info:
   title: Bank Argent API documentation
   description: Contains all available API endpoints in this codebase
-  version: '1.0.0'
-  termsOfService: 'http://swagger.io/terms/'
+  version: "1.0.0"
+  termsOfService: "http://swagger.io/terms/"
 host: localhost:3001
 basePath: /api/v1
 schemes:
@@ -21,17 +21,17 @@ paths:
           description: Login Payload
           required: true
           schema:
-            $ref: '#/definitions/Login'
+            $ref: "#/definitions/Login"
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: Login Successfully
           schema:
-            $ref: '#/definitions/LoginResponse'
-        '400':
+            $ref: "#/definitions/LoginResponse"
+        "400":
           description: Invalid Fields
-        '500':
+        "500":
           description: Internal Server Error
   /user/signup:
     post:
@@ -45,17 +45,17 @@ paths:
           description: Signup Payload
           required: true
           schema:
-            $ref: '#/definitions/User'
+            $ref: "#/definitions/User"
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: Signup Successfully
           schema:
-            $ref: '#/definitions/ApiResponse'
-        '400':
+            $ref: "#/definitions/ApiResponse"
+        "400":
           description: Invalid Fields
-        '500':
+        "500":
           description: Internal Server Error
   /user/profile:
     post:
@@ -66,15 +66,15 @@ paths:
       summary: User Profile API
       description: API for fetching a user profile
       #produces:
-       # - application/json
+      # - application/json
       responses:
-        '200':
+        "200":
           description: User profile retrieved successully
           schema:
-            $ref: '#/definitions/ApiResponse'
-        '400':
+            $ref: "#/definitions/ApiResponse"
+        "400":
           description: Invalid Fields
-        '500':
+        "500":
           description: Internal Server Error
     put:
       security:
@@ -89,18 +89,151 @@ paths:
           description: Update user profile attributes
           required: true
           schema:
-            $ref: '#/definitions/UserProfile'
+            $ref: "#/definitions/UserProfile"
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: User profile retrieved successully
           schema:
-            $ref: '#/definitions/ApiResponse'
-        '400':
+            $ref: "#/definitions/ApiResponse"
+        "400":
           description: Invalid Fields
-        '500':
+        "500":
           description: Internal Server Error
+
+  /account:
+    get:
+      summary: Get Account Transactions
+      description: Retrieve transactions for a specific account.
+      security:
+        - BearerAuth: []  
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer token for authentication
+          required: true
+          type: string
+      responses:
+        200:
+          description: Success - Get transactions
+          schema:
+            $ref: "#/definitions/AccountApiResponse"
+        401:
+          description: Unauthorized
+        404:
+          description: Account not found
+        500:
+          description: Server error
+
+  /transaction:
+    get:
+      summary:  Get Account Transactions for Current Month
+      description: Retrieve transactions for a specific account within the current month.
+      security:
+        - BearerAuth: []  
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer token for authentication
+          required: true
+          type: string
+        - in: query
+          name: account
+          description: ID of the specific account to retrieve transactions for
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: start_date
+          description: Start date for filtering transactions
+          required: true
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: end_date
+          description: End date for filtering transactions
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        200:
+          description: Success - Get transactions
+          schema:
+            $ref: "#/definitions/TransactionsList"
+        401:
+          description: Unauthorized
+        404:
+          description: Account not found
+        500:
+          description: Server error
+
+
+  /transaction/{transactionId}:
+    get:
+      summary: Get Transaction by ID
+      description: Retrieve details of a specific transaction by its ID.
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer token for authentication
+          required: true
+          type: string
+        - in: path
+          name: transactionId
+          description: ID of the transaction to retrieve
+          required: true
+          type: string
+      responses:
+        200:
+          description: Success - Retrieve transaction
+          schema:
+            $ref: "#/definitions/GetTransactionById"
+        401:
+          description: Unauthorized
+        404:
+          description: Transaction not found
+        500:
+          description: Server error
+
+  
+  /transaction/{transaction_id}:
+    patch:
+      summary: Modify transaction category and note by Transaction ID
+      description: Modify the category and/or note of a specific transaction using its ID.
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: transaction_id
+          required: true
+          description: ID of the transaction to modify
+          schema:
+            type: integer
+        - in: body
+          name: body
+          description: Login Payload
+          required: true
+          schema:
+            $ref: '#/definitions/TransactionUpdate'    
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Transaction updated successfully
+        400:
+          description: Invalid request payload
+        401:
+          description: Unauthorized - Authentication required
+        404:
+          description: Transaction not found
+        500:  
+          description: Internal server error
+  
 securityDefinitions:
   Bearer:
     type: apiKey
@@ -132,6 +265,7 @@ definitions:
       password:
         type: string
         description: user password
+
   ApiResponse:
     type: object
     properties:
@@ -146,13 +280,102 @@ definitions:
             type: string
           email:
             type: string
+
   LoginResponse:
     type: object
     properties:
       token:
         type: string
+        
   UserProfile:
     type: object
     properties:
       userName:
         type: string
+        NoteApiResponse:
+    type: object
+    properties:
+      note_id: 
+        type: string
+        
+             
+  AccountApiResponse:
+    type: array
+    items: 
+        $ref: '#/definitions/TransactionsList'
+    properties: 
+      transaction: 
+        type: object
+        properties: 
+          transaction-type: 
+            type: string
+          category: 
+            type: string
+          note: 
+            type: string
+
+  TransactionsList:
+    type: object
+    properties:
+      transaction_id:
+        type: integer
+        description: Transaction identifier
+      amount:
+        type: number
+        description: Transaction amountè
+      date_to:
+        type: string
+        format: date 
+        description: Start date for filtering transactions
+      to:
+        type: string
+        format: date
+        description: End date for filtering transactions
+      description:
+        type: string
+        description: Transaction description
+    required:
+      - transaction_id
+      - amount
+      - date_to 
+      - to
+      - description
+
+    
+  GetTransactionById:
+    type: object
+    properties:
+      transaction_id:
+        type: integer
+        description: Transaction identifier
+      amount:
+        type: number
+        description: Transaction amount
+      date:
+        type: string
+        format: date-time
+        description: Transaction date and time
+      description:
+        type: string
+        description: Transaction description
+    required:
+      - transaction_id
+      - amount
+      - date
+      - description
+
+  TransactionUpdate:
+    type: object
+    properties:
+      category:
+        type: string
+        description: New category to assign to the transaction
+      note:
+        type: string
+        description: New note for the transaction
+    required:
+      - category
+      - note
+
+   
+

@@ -13,10 +13,6 @@ body {
   min-height: 100vh;
 }
 
-.main {
-  height: 80vh;
-}
-
 .bg-dark {
   background-color: #12002b;
   padding-top: 3em;
@@ -34,6 +30,9 @@ body {
   position: absolute !important;
   width: 1px !important;
   white-space: nowrap !important; /* 3 */
+}
+.main {
+  padding-bottom: 2rem;
 }
 
 .main-nav {
@@ -100,7 +99,7 @@ body {
 }
 
 .hero {
-  background-image: url("../img/bank-tree.jpeg");
+  background-image: url("../img/bank-tree.webp");
   background-position: 0 -50px;
   background-size: cover;
   background-repeat: no-repeat;
@@ -130,16 +129,15 @@ body {
 }
 .edit-container {
   color: white;
-  width: 40%;
   min-width: 235px;
   margin: auto;
 }
 
 .input-container {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
-  width: 235px;
+  width: 215px;
   margin: auto;
 }
 .edit-inputs-container {
@@ -154,6 +152,19 @@ body {
   height: 25px;
   width: 110px;
   border-radius: 5px;
+  padding: 2px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.unactif-input {
+  cursor: not-allowed;
+  background-color: rgb(204, 204, 204);
+}
+
+.unactif-input:focus {
+  outline: none;
+  caret-color: transparent;
 }
 
 .edit-button-container {

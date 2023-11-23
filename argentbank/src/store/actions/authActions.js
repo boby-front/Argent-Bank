@@ -26,9 +26,13 @@ export const userLogin = (email, password) => async (dispatch) => {
 
       if (userInfoResponse.status === 200) {
         const userName = userInfoResponse.data.body.userName;
+        const firstName = userInfoResponse.data.body.firstName;
+        const lastName = userInfoResponse.data.body.lastName;
         dispatch(
           userInfos({
             userName: userName,
+            firstName: firstName,
+            lastName: lastName,
           })
         );
       } else {

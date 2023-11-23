@@ -1,14 +1,26 @@
 import React, { useState } from "react";
 import InfoMoney from "../components/InfoMoney";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { userInfos } from "../store/slices/authSlice";
+import { updateUserInDatabase } from "../store/actions/dataActions";
 
 const User = () => {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const userName = useSelector((state) => state.auth.userName);
+  const firstName = useSelector((state) => state.auth.firstName);
+  const lastName = useSelector((state) => state.auth.lastName);
+  const [newUserName, setNewUserName] = useState("");
+  const dispatch = useDispatch();
   const [openEdit, setOpenEdit] = useState(false);
 
   const ToggleEdit = () => {
     setOpenEdit(!openEdit);
+  };
+
+  const handleUserNameChange = () => {
+    dispatch(userInfos({ userName: newUserName, firstName, lastName }));
+    updateUserInDatabase(newUserName);
+    setOpenEdit(false);
   };
 
   return (
@@ -20,19 +32,38 @@ const User = () => {
             <div className="edit-inputs-container">
               <div className="input-container">
                 <label htmlFor="username">User name :</label>
-                <input type="text" id="username" />
+                <input
+                  type="text"
+                  id="username"
+                  value={newUserName}
+                  onChange={(e) => setNewUserName(e.target.value)}
+                />
               </div>
               <div className="input-container">
                 <label htmlFor="firstname">First name :</label>
-                <input type="text" id="firstname" />
+                <input
+                  type="text"
+                  id="firstname"
+                  value={firstName}
+                  readonly
+                  className="unactif-input "
+                />
               </div>
               <div className="input-container">
                 <label htmlFor="lastname">Last name :</label>
-                <input type="text" id="lastname" />
+                <input
+                  type="text"
+                  id="lastname"
+                  value={lastName}
+                  readonly
+                  className="unactif-input "
+                />
               </div>
             </div>
             <div className="edit-button-container">
-              <button className="edit-button">Save</button>
+              <button className="edit-button" onClick={handleUserNameChange}>
+                Save
+              </button>
               <button onClick={ToggleEdit} className="edit-button">
                 Cancel
               </button>
