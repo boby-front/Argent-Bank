@@ -65,8 +65,6 @@ paths:
         - User Module
       summary: User Profile API
       description: API for fetching a user profile
-      #produces:
-      # - application/json
       responses:
         "200":
           description: User profile retrieved successully
@@ -107,7 +105,7 @@ paths:
       summary: Get Account Transactions
       description: Retrieve transactions for a specific account.
       security:
-        - BearerAuth: []  
+        - Bearer: []
       parameters:
         - in: header
           name: Authorization
@@ -128,10 +126,10 @@ paths:
 
   /transaction:
     get:
-      summary:  Get Account Transactions for Current Month
+      summary: Get Account Transactions for Current Month
       description: Retrieve transactions for a specific account within the current month.
       security:
-        - BearerAuth: []  
+        - Bearer: []
       parameters:
         - in: header
           name: Authorization
@@ -142,22 +140,19 @@ paths:
           name: account
           description: ID of the specific account to retrieve transactions for
           required: true
-          schema:
-            type: integer
+          type: integer
         - in: query
           name: start_date
           description: Start date for filtering transactions
           required: true
-          schema:
-            type: string
-            format: date
+          type: string
+          format: date
         - in: query
           name: end_date
           description: End date for filtering transactions
           required: true
-          schema:
-            type: string
-            format: date
+          type: string
+          format: date
       responses:
         200:
           description: Success - Get transactions
@@ -170,24 +165,18 @@ paths:
         500:
           description: Server error
 
-
   /transaction/{transaction_id}:
+    parameters:
+      - in: path
+        name: transaction_id
+        required: true
+        description: ID of the transaction
+        type: string
     get:
       summary: Get Transaction by ID
       description: Retrieve details of a specific transaction by its ID.
       security:
-        - BearerAuth: []
-      parameters:
-        - in: header
-          name: Authorization
-          description: Bearer token for authentication
-          required: true
-          type: string
-        - in: path
-          name: transactionId
-          description: ID of the transaction to retrieve
-          required: true
-          type: string
+        - Bearer: []
       responses:
         200:
           description: Success - Retrieve transaction
@@ -199,27 +188,18 @@ paths:
           description: Transaction not found
         500:
           description: Server error
-
-  
-  /transaction/{transaction_id}:
     patch:
       summary: Modify transaction category and note by Transaction ID
       description: Modify the category and/or note of a specific transaction using its ID.
       security:
-        - BearerAuth: []
+        - Bearer: []
       parameters:
-        - in: path
-          name: transaction_id
-          required: true
-          description: ID of the transaction to modify
-          schema:
-            type: integer
         - in: body
           name: body
           description: Login Payload
           required: true
           schema:
-            $ref: '#/definitions/TransactionUpdate'    
+            $ref: "#/definitions/TransactionUpdate"
       produces:
         - application/json
       responses:
@@ -231,9 +211,9 @@ paths:
           description: Unauthorized - Authentication required
         404:
           description: Transaction not found
-        500:  
+        500:
           description: Internal server error
-  
+
 securityDefinitions:
   Bearer:
     type: apiKey
@@ -286,32 +266,26 @@ definitions:
     properties:
       token:
         type: string
-        
+
   UserProfile:
     type: object
     properties:
       userName:
         type: string
-        NoteApiResponse:
-    type: object
-    properties:
-      note_id: 
-        type: string
-        
-             
+
   AccountApiResponse:
     type: array
-    items: 
-        $ref: '#/definitions/TransactionsList'
-    properties: 
-      transaction: 
+    items:
+      $ref: "#/definitions/TransactionsList"
+    properties:
+      transaction:
         type: object
-        properties: 
-          transaction-type: 
+        properties:
+          transaction-type:
             type: string
-          category: 
+          category:
             type: string
-          note: 
+          note:
             type: string
 
   TransactionsList:
@@ -322,10 +296,10 @@ definitions:
         description: Transaction identifier
       amount:
         type: number
-        description: Transaction amountè
+        description: Transaction amount
       date_to:
         type: string
-        format: date 
+        format: date
         description: Start date for filtering transactions
       to:
         type: string
@@ -334,14 +308,22 @@ definitions:
       description:
         type: string
         description: Transaction description
+      category:
+        type: string
+        description: Transaction category
+      note:
+        type: string
+        description: Transaction note
+      balance:
+        type: number
+        description: Transaction balance
     required:
       - transaction_id
       - amount
-      - date_to 
+      - date_to
       - to
       - description
 
-    
   GetTransactionById:
     type: object
     properties:
@@ -358,6 +340,15 @@ definitions:
       description:
         type: string
         description: Transaction description
+      category:
+        type: string
+        description: Transaction category
+      note:
+        type: string
+        description: Transaction note
+      balance:
+        type: number
+        description: Transaction balance
     required:
       - transaction_id
       - amount
@@ -376,6 +367,3 @@ definitions:
     required:
       - category
       - note
-
-   
-
