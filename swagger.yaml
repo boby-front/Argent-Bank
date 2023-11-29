@@ -124,7 +124,7 @@ paths:
         500:
           description: Server error
 
-  /transaction:
+  /transaction/{accountId}/{startDate}/{endDate}:
     get:
       summary: Get Account Transactions for Current Month
       description: Retrieve transactions for a specific account within the current month.
@@ -137,18 +137,18 @@ paths:
           required: true
           type: string
         - in: query
-          name: account
+          name: accountId
           description: ID of the specific account to retrieve transactions for
           required: true
           type: integer
         - in: query
-          name: start_date
+          name: startDate
           description: Start date for filtering transactions
           required: true
           type: string
           format: date
         - in: query
-          name: end_date
+          name: endDate
           description: End date for filtering transactions
           required: true
           type: string
