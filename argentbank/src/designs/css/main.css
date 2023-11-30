@@ -136,6 +136,12 @@ body {
   min-width: 235px;
   margin: auto;
 }
+.error-container {
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .input-container {
   display: flex;

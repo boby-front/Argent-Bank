@@ -13,14 +13,15 @@ const Nav = () => {
 
   const handleLogout = () => {
     dispatch(logout());
+    localStorage.removeItem("token");
   };
 
   const handleGoToUser = () => {
-    if (isLoggedIn === true) navigate("/User");
+    if (isLoggedIn === true) navigate("/Profile");
   };
 
   return (
-    <nav className="main-nav">
+    <header className="main-nav">
       <Logo />
 
       <div className="profile-container">
@@ -35,7 +36,7 @@ const Nav = () => {
           {isLoggedIn ? "Sign Out" : "Sign In"}
         </NavLink>
       </div>
-    </nav>
+    </header>
   );
 };
 

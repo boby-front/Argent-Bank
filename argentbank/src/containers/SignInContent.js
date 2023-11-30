@@ -13,7 +13,7 @@ const SignInContent = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      navigate("/User");
+      navigate("/Profile");
     }
   }, [isLoggedIn]);
 

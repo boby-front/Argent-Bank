@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InfoMoney from "../components/InfoMoney";
 import { useDispatch, useSelector } from "react-redux";
 import { userInfos } from "../store/slices/authSlice";
-import { updateUserInDatabase } from "../store/actions/dataActions";
+import { updateUserInDatabase } from "../store/actions/sendDataActions";
 
 const User = () => {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -22,6 +22,19 @@ const User = () => {
     updateUserInDatabase(newUserName);
     setOpenEdit(false);
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const userDataFromLocalStorage = JSON.parse(
+        localStorage.getItem("userData")
+      );
+      if (userDataFromLocalStorage) {
+        const { userName, firstName, lastName } = userDataFromLocalStorage;
+        dispatch(userInfos({ userName, firstName, lastName }));
+      }
+    }
+  }, [dispatch]);
 
   return (
     isLoggedIn && (
@@ -45,7 +58,7 @@ const User = () => {
                   type="text"
                   id="firstname"
                   value={firstName}
-                  readonly
+                  readOnly
                   className="unactif-input "
                 />
               </div>
@@ -55,7 +68,7 @@ const User = () => {
                   type="text"
                   id="lastname"
                   value={lastName}
-                  readonly
+                  readOnly
                   className="unactif-input "
                 />
               </div>
